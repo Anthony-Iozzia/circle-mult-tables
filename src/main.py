@@ -4,7 +4,7 @@ import numpy as np
 
 ########## Settings ########
 table = 2
-nb_points = 84
+nb_points = 80
 fig_resolution = 150 # dpi
 ############################
 
@@ -38,23 +38,18 @@ ax.add_artist(circle)
 for i in range(nb_points):
     p1 = i
     p2 = (i * table) % nb_points
-    ax.plot([x[p1], x[p2]], [y[p1], y[p2]], 'k-', linewidth=0.3) # b=blue, -=solid line
+    ax.plot([x[p1], x[p2]], [y[p1], y[p2]], color="black", linestyle="solid", linewidth=0.3)
 
 # Set the aspect ratio of the plot
 ax.set_aspect('equal')
 
-# Hide the axes
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-ax.spines['bottom'].set_visible(False)
-ax.spines['left'].set_visible(False)
-ax.set_xticks([])
-ax.set_yticks([])
+# Remove the axes
+ax.set_axis_off()
 
 ax.text(0, 1.3, f"Table: {table}", ha='center', va='top', fontsize=12, weight='bold')
 ax.text(0, 1.2, f"Modulo: {nb_points}", ha='center', va='top', fontsize=12, weight='bold')
 
-plt.gcf().canvas.manager.window.title("Circle multiplication tables")
+fig.canvas.manager.window.title("Circle multiplication tables")
 
 # Display the plot
 plt.show()

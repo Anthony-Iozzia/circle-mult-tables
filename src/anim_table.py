@@ -7,7 +7,7 @@ table_start = 2
 table_end = 100
 nb_points = 84
 fig_resolution = 150 # dpi
-delay_between_frames = 500 # ms (default=200)
+delay_between_frames = 200 # ms (default=200)
 ############################
 
 def update_figure(frame):
@@ -46,13 +46,8 @@ def update_figure(frame):
     # Set the aspect ratio of the plot
     ax.set_aspect('equal')
 
-    # Hide the axes
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    ax.set_xticks([])
-    ax.set_yticks([])
+    # Remove the axes
+    ax.set_axis_off()
 
     ax.text(0, 1.3, f"Table: {table_current}", ha='center', va='top', fontsize=12, weight='bold')
     ax.text(0, 1.2, f"Modulo: {nb_points}", ha='center', va='top', fontsize=12, weight='bold')
