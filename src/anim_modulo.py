@@ -67,7 +67,7 @@ plt.rcParams['figure.dpi'] = fig_resolution
 # Create the animation
 animation = FuncAnimation(fig=plt.gcf(), func=update_figure, frames=nb_points_end - nb_points_start + 1, interval=delay_between_frames, repeat=False)
 
-plt.gcf().canvas.manager.window.title("Multiplication tables")
+plt.gcf().canvas.manager.window.title("Circle multiplication tables")
 
 # Register the callback function to exit the program when the window is closed
 plt.connect('close_event', on_close)

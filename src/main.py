@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ########## Settings ########
-table = 84
+table = 2
 nb_points = 84
 fig_resolution = 150 # dpi
 ############################
@@ -50,6 +50,11 @@ ax.spines['bottom'].set_visible(False)
 ax.spines['left'].set_visible(False)
 ax.set_xticks([])
 ax.set_yticks([])
+
+ax.text(0, 1.3, f"Table: {table}", ha='center', va='top', fontsize=12, weight='bold')
+ax.text(0, 1.2, f"Modulo: {nb_points}", ha='center', va='top', fontsize=12, weight='bold')
+
+plt.gcf().canvas.manager.window.title("Circle multiplication tables")
 
 # Display the plot
 plt.show()
