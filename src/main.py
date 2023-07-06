@@ -7,3 +7,5 @@ table = 2
 nb_points = 80
 fig_resolution = 150 # dpi
 Mode = Enum('Mode', ['STATIC', 'ANIM_MODULO', 'ANIM_TABLE'])
+
+# Work in progress
