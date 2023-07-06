@@ -3,12 +3,12 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 
 ########## Settings ########
-table_start = 2
-table_end = 84
-step = 0.01
-nb_points = 84
+table_start = 20
+table_end = 100
+step = 0.05
+nb_points = 200
 fig_resolution = 150 # dpi
-delay_between_frames = 50 # ms (default=200)
+delay_between_frames = 10 # ms (default=200)
 ############################
 
 table_current = table_start
@@ -19,7 +19,6 @@ def nb_decimal_places(number):
 def update_figure(frame):
     plt.clf()  # Clear the current figure
 
-    # table_current = frame + table_start
     global table_current
     table_current += step
 
@@ -57,7 +56,10 @@ def update_figure(frame):
     # Remove the axes
     ax.set_axis_off()
 
-    ax.text(0, 1.3, f"Table: {round(table_current,nb_decimal_places(step))}", ha='center', va='top', fontsize=12, weight='bold')
+    decimal_places = nb_decimal_places(step)
+    value = round(table_current,decimal_places)
+    formatted_value = f"{value:.{decimal_places}f}"
+    ax.text(0, 1.3, f"Table: {formatted_value}", ha='center', va='top', fontsize=12, weight='bold')
     ax.text(0, 1.2, f"Modulo: {nb_points}", ha='center', va='top', fontsize=12, weight='bold')
 
 def on_close(event):
