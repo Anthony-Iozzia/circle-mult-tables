@@ -27,10 +27,17 @@ fig, ax = plt.subplots(dpi=fig_resolution)
 circle = plt.Circle((0, 0), 1, fill=False)
 ax.add_artist(circle)
 
+# Draw the points
+# ax.plot(x, y, 'ro', markersize=0) # r=red, o=circle
+
+# Add labels for the points
+# for i, angle in enumerate(angles):
+#     ax.annotate(str(i), xy=(x[i], y[i]), xytext=(x[i]+0.1, y[i]+0.1))
+
 # Draw the lines
 for i in range(nb_points):
     p1 = i
-    p2 = int((i * table) % nb_points)  # Convert the result to int
+    p2 = int(round((i * table) % nb_points))
     ax.plot([x[p1], x[p2]], [y[p1], y[p2]], color="black", linestyle="solid", linewidth=0.3)
 
 # Set the aspect ratio of the plot

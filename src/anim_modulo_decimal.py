@@ -40,7 +40,7 @@ def update_figure(frame):
     # Draw the lines
     for i in range(nb_points_current):
         p1 = i
-        p2 = int((i * table) % nb_points_current)
+        p2 = int(round((i * table) % nb_points_current))
         ax.plot([x[p1], x[p2]], [y[p1], y[p2]], 'k-', linewidth=0.3) # b=blue, -=solid line
 
     # Set the aspect ratio of the plot
