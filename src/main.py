@@ -19,10 +19,11 @@ delay_between_frames_table = 0
 ########## Settings ########
 fig_resolution = 150 # dpi
 mode = Mode.STATIC # STATIC, ANIM_MODULO, ANIM_TABLE
+display_points = False
 
 if mode == Mode.STATIC:
     table = 2 # multiplication table (supports decimal numbers)
-    modulo = 10 # number of points on the circle (integer)
+    modulo = 200 # number of points on the circle (integer)
 elif mode == Mode.ANIM_MODULO:
     table = 2 # multiplication table (supports decimal numbers)
     modulo_start = 20 # only integer
@@ -104,16 +105,17 @@ def update_figure(frame=0):
     x = radius * np.cos(angles)
     y = radius * np.sin(angles)
 
-    # Draw the points
-    graph.plot(x, y, color='red', marker='o', linestyle='', markersize=3)
-    
-    # Add labels to the points: place these labels on a slightly bigger circle
-    radius_labels = radius * 1.075
-    x_labels = radius_labels * np.cos(angles)
-    y_labels = radius_labels * np.sin(angles)
-    for i, angle in enumerate(angles):
-        label = str(i)
-        graph.annotate(label, xy=(x_labels[i], y_labels[i]), horizontalalignment='center', verticalalignment='center')
+    if display_points:
+        # Draw the points
+        graph.plot(x, y, color='red', marker='o', linestyle='', markersize=3)
+        
+        # Add labels to the points: place these labels on a slightly bigger circle
+        radius_labels = radius * 1.075
+        x_labels = radius_labels * np.cos(angles)
+        y_labels = radius_labels * np.sin(angles)
+        for i, angle in enumerate(angles):
+            label = str(i)
+            graph.annotate(label, xy=(x_labels[i], y_labels[i]), horizontalalignment='center', verticalalignment='center')
 
     # Draw the lines
     for i in range(modulo_current):
