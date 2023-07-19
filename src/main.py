@@ -18,7 +18,7 @@ delay_between_frames_table = 0
 
 ########## Settings ########
 fig_resolution = 150 # dpi
-mode = Mode.STATIC # STATIC, ANIM_MODULO, ANIM_TABLE
+mode = Mode.ANIM_MODULO # STATIC, ANIM_MODULO, ANIM_TABLE
 display_points = False
 
 if mode == Mode.STATIC:
@@ -29,13 +29,13 @@ elif mode == Mode.ANIM_MODULO:
     modulo_start = 20 # only integer
     modulo_end = 200 # only integer
     modulo_step = 1 # only integer
-    delay_between_frames_modulo = 25 # ms (default=200)
+    delay_between_frames_modulo = 20 # ms (default=200)
 elif mode == Mode.ANIM_TABLE:
-    table_start = 20 # supports decimal numbers
-    table_end = 100 # supports decimal numbers
-    table_step = 0.1 # supports decimal numbers
+    table_start = 2 # supports decimal numbers
+    table_end = 10 # supports decimal numbers
+    table_step = 5 # supports decimal numbers
     modulo = 80 # number of points on the circle (integer)
-    delay_between_frames_table = 25 # ms (default=200)
+    delay_between_frames_table = 1000 # ms (default=200)
 ############################
 
 # Check that mode is valid
@@ -53,14 +53,23 @@ modulo_step = int(modulo_step)
 def nb_decimal_places(number):
     return len(str(number).split('.')[-1]) if isinstance(number, float) else 0
 
-table_current = table_start
-modulo_current = modulo_start
+def nb_frames(start, end, step):
+    return int((end - start) / step + 1)
+
+table_current = 0
+modulo_current = 0
 table_decimal_places = 0
 if mode == Mode.STATIC:
+    table_current = table
+    modulo_current = modulo
     table_decimal_places = nb_decimal_places(table)
 elif mode == Mode.ANIM_MODULO:
+    table_current = table
+    modulo_current = modulo_start
     table_decimal_places = 0
 elif mode == Mode.ANIM_TABLE:
+    table_current = table_start
+    modulo_current = modulo
     table_decimal_places = nb_decimal_places(table_step)
 
 def on_close(event):
@@ -77,16 +86,6 @@ plt.connect('close_event', on_close)
 def update_figure(frame=0):
     global table_current
     global modulo_current
-    if mode == Mode.ANIM_TABLE:
-        table_current += table_step
-        modulo_current = modulo
-    elif mode == Mode.ANIM_MODULO:
-        modulo_current += modulo_step
-        table_current = table
-    else:
-        table_current = table
-        modulo_current = modulo
-        
 
     plt.clf() # Clear the previous figure
     graph = plt.gca() # Get the graph
@@ -129,15 +128,19 @@ def update_figure(frame=0):
     graph.text(0, radius * 1.35, f"Table: {table_current_formatted}", horizontalalignment='center', verticalalignment='top', fontsize=12, weight='bold')
     graph.text(0, radius * 1.25, f"Modulo: {modulo_current}", horizontalalignment='center', verticalalignment='top', fontsize=12, weight='bold')
 
+    # Update count for next iteration
+    if mode == Mode.ANIM_MODULO:
+        modulo_current += modulo_step
+    elif mode == Mode.ANIM_TABLE:
+        table_current += table_step
+
 
 if mode == Mode.STATIC:
     update_figure()
 elif mode == Mode.ANIM_MODULO:
-    nb_frames = modulo_end - modulo_start + 1
-    animation = FuncAnimation(fig=plt.gcf(), func=update_figure, frames=nb_frames, interval=delay_between_frames_modulo, repeat=False)
+    animation = FuncAnimation(fig=plt.gcf(), func=update_figure, frames=nb_frames(modulo_start, modulo_end, modulo_step)-1, interval=delay_between_frames_modulo, repeat=False)
 elif mode == Mode.ANIM_TABLE:
-    nb_frames = int(1/table_step)*int(table_end - table_start + 1)
-    animation = FuncAnimation(fig=plt.gcf(), func=update_figure, frames=nb_frames, interval=delay_between_frames_table, repeat=False)
+    animation = FuncAnimation(fig=plt.gcf(), func=update_figure, frames=nb_frames(table_start, table_end, table_step)-1, interval=delay_between_frames_table, repeat=False)
 else:
     print("Error: Invalid mode")
     sys.exit(1)
